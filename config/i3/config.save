@@ -1,0 +1,198 @@
+# documentacion  https://i3wm.org/docs/userguide.html
+#tecla lider
+set $mod Mod4
+
+#fuente de letra
+font pango:Ubuntu 12
+
+#control de volumen
+set $refresh_status pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status pkill -RTMIN+10 i3blocks
+
+#control de brillo de la pantalla
+bindsym XF86MonBrightnessDown exec brightnessctl set 2%-
+bindsym XF86MonBrightnessUp exec brightnessctl set +2%
+
+# captura de pantalla
+bindsym Print exec gnome-screenshot -i
+
+# mover una ventana flotante mouse + windows
+floating_modifier $mod
+
+# ejecutar la terminal
+bindsym $mod+Return exec kitty
+
+
+# cerrar una ventana
+bindsym $mod+Shift+q kill
+
+#color dmenu
+set $bg "#444477"
+
+#menu   
+bindsym F2 exec dmenu_run
+bindsym $mod+d exec rofi -font "Cantarell 12" -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/material/scripts/rofi/launcher.rasi
+
+
+# monitors
+bindsym $mod+p exec "$HOME/.config/i3/monitors"
+
+# ctrl-alt-supr
+bindsym Control+Mod1+Delete exec "$HOME/.config/i3/power"
+
+# shutdown
+bindysm XF86PowerOff exec "$HOME/.config/i3/power"
+
+# foco de la ventana 
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# mover la ventana de foco
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# orientacion de nuevas ventana en horizontal
+bindsym $mod+h split h
+
+# orientacion de nuevas ventana en vertical
+bindsym $mod+v split v
+
+# ventana en pantalla completa pantalla completa
+bindsym $mod+f fullscreen toggle
+
+# # change container layout (stacked, tabbed, toggle split)
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
+
+#ventana flotante
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+s sticky toggle
+
+#cambiar foco entre flotante y fijo
+bindsym $mod+space focus mode_toggle
+
+# seleccionar todos los focos
+bindsym $mod+a focus parent
+
+# bloquea pantalla
+ bindsym $mod+mod1+l exec i3lock
+#bindsym $mod+mod1+l exec slock 
+
+#definir areas de trabajo
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
+set $ws4 "4"
+set $ws5 "5: "
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "0: "
+
+# mover entre areas de trabajo
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# mover ventanas entre areas de trabajo
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+#cambiar entre espacios de trabajo
+# bindsym $mod+Tab workspace next
+# bindsym $mod+Shift+Tab workspace prev
+
+#resetear configuracion actual
+bindsym $mod+Shift+r restart
+#cerrar sesion
+bindsym $mod+Shift+e exec i3-msg exit
+
+# modo resize /cambiar tamaños de ventana
+mode "resize" {
+
+bindsym Left resize shrink width 3 px or 3 ppt
+bindsym Down resize grow height 3 px or 3 ppt
+bindsym Up resize shrink height 3 px or 3 ppt
+bindsym Right resize grow width 3 px or 3 ppt
+
+bindsym Return mode "default"
+bindsym Escape mode "default"
+bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+gaps inner 6
+gaps outer 10
+smart_gaps on
+smart_borders on
+#
+bindsym $mod+Shift+a gaps inner all minus 2; gaps outer all minus 2;
+bindsym $mod+Shift+g gaps inner all plus 2; gaps outer all plus 2;
+
+# això és per es espais de treball
+assign [class="firefox"] $ws2
+assign [class="Brave-browser"] $ws2
+#assign [class="Emacs"] $ws3
+assign [class="Spotify"] $ws10
+assign [class="discord"] $ws5
+assign [class="TelegramDesktop"] $ws5
+
+for_window [title="video0 - mpv"] floating enable
+for_window [title="video0 - mpv"] sticky enable
+for_window [class="scrcpy"] floating enable
+
+client.focused #444444 #bf7500 #444444 #ffff70
+
+for_window [class="^.*"] border pixel 3
+new_window pixel 3
+exec picom -b -f
+exec feh  feh --bg-fill /home/vicente/Pictures/3.jpg
+exec xrandr --output eDP-1 --primary --mode 1600x900 --pos 0x0 --rotate normal --output DP-1 --off --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --off
+exec polybar
+
+
+
+
+# atajos de teclado personalizados
+
+bindsym $mod+mod1+1 exec google-chrome
+bindsym $mod+mod1+2 exec dolphin
+bindsym $mod+mod1+3 exec wps
+bindsym $mod+mod1+4 exec code
+bindsym $mod+mod1+5 exec subl
+bindsym $mod+mod1+6 exec arduino
+bindsym $mod+mod1+7 exec netbeans
+
+
+#cambiar distribucion de teclado
+bindsym $mod+mod1+9 exec setxkbmap us            
+bindsym $mod+mod1+0 exec setxkbmap es
+
+
+
+

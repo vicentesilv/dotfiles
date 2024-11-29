@@ -1,0 +1,196 @@
+##########################
+# wm independent hotkeys #
+##########################
+
+# terminal 
+super + Return
+	kitty
+# buscador de programas
+super + d 
+	rofi  rofi -font "Cantarell 12" -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/launcher.rasi
+
+# recargar arcchivos de configuracion
+super + Escape
+	pkill -USR1 -x sxhkd
+
+#################
+# bspwm hotkeys #
+#################
+
+#recargar window manager
+super + shift + {e,r}
+	bspc {quit,wm -r}
+
+
+# cerrar ventana
+super + shift + q
+	bspc node -c
+
+# alternar entre el diseño en mosaico y monóculo
+super + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+# super + y
+# 	bspc node newest.marked.local -n newest.!automatic.local
+
+# intercambiar la ventana actual por la mas grande
+super + g
+	bspc node -s biggest.window
+
+###############
+# state/flags #
+###############
+
+# estado de la ventana
+#pantalla completa
+super + f
+	bspc node -t fullscreen
+#pantalla flotante, mosaico
+super + shift + {f,a}
+	bspc node -t {floating,tiled}
+
+
+# set the node flags
+# super + ctrl + {m,x,y,z}
+# 	bspc node -g {marked,locked,sticky,private}
+
+##############
+# focus/swap #
+##############
+
+# mover ventana en la direccion dada
+super + {_,shift + }{Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+# super + {p,b,comma,period}
+# 	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+# super + {_,shift + }c
+# 	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+# super + bracket{left,right}
+# 	bspc desktop -f {prev,next}.local
+
+# intercalar entre la ultima ventana y la reciente
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+# super + {o,i}
+# 	bspc wm -h off; \
+# 	bspc node {older,newer} -f; \
+# 	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#############
+# preselect #
+#############
+
+# preselect the direction
+# super + ctrl + alt + {Left,Down,Up,Right}
+# 	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+# super + ctrl + {1-9}
+# 	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+# super + ctrl + space
+# 	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+# super + ctrl + alt + space
+# 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+###############
+# move/resize #
+###############
+
+# expand a window by moving one of its side outward
+#super + alt + {h,j,k,l}
+#	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+#super + alt + shift + {h,j,k,l}
+#	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Custom move/resize
+super + alt + {Left,Down,Up,Right}
+	~/.config/bspwm/scripts/bspwm_resize {west,south,north,east}
+
+########################
+# Custom Launchers App #
+########################
+
+# Firefox
+super + shift + f
+	firefox-esr
+
+# BurpSuite
+super + shift + b
+	burpsuite
+
+###############
+# ScreenShots #
+###############
+
+@Print
+    gnome-screenshot -i
+
+
+
+##############################
+#   atajos de aplicaciones   #
+##############################
+super + alt + 1
+	google-chrome
+super + alt + 2
+	pcmanfm
+super + alt + 3
+	libreoffice
+super + alt + 4
+	code
+
+
+
+
+
+XF86AudioRaiseVolume 
+	exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+XF86AudioLowerVolume
+	 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+XF86AudioMute 
+	exec pactl set-sink-mute @DEFAULT_SINK@ toggle 
+XF86AudioMicMute
+	 exec pactl set-source-mute @DEFAULT_SOURCE@ toggle 
+
+
+XF86MonBrightnessDown 
+	exec brightnessctl set 2%-
+XF86MonBrightnessUp 
+	exec brightnessctl set +2%
+super + alt + 9
+	exec setxkbmap us
+super + alt + 0
+	exec setxkbmap es
+super + alt +l 
+	i3lock
+
+
+
+
+
+
+
+
